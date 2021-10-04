@@ -9,7 +9,6 @@
     "./eslint": "./configs/eslint.json",
     "./eslint-ts": "./configs/eslint-typescript.json",
     "./prettier": "./configs/prettier.json",
-    "./browserslist": "./configs/browserslist.json",
     "./tsconfig": "./configs/tsconfig.json",
     "./make-rollup-config": "./make-rollup-config.mjs"
   },
