@@ -2,100 +2,33 @@
 
 This repository holds project configurations for all foxkit-js packages
 
-## Install with TypeScript
+## Setup
 
 - Install dependencies:
 
 ```shell
-yarn add -D @foxkit/internal rollup typescript eslint prettier rollup-plugin-typescript @typescript-eslint/eslint-plugin @typescript-eslint/parser clean-publish lint-staged simple-git-hooks
+yarn add -D @foxkit/internal rollup eslint prettier eslint-config-prettier clean-publish lint-staged simple-git-hooks
 ```
 
 - Add to `package.json`:
 
 ```json
 {
-  "types": "./index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "scripts": {
     "lint": "eslint .",
     "format": "prettier -w .",
-    "test": "eslint .",
+    "prebuild": "eslint .",
+    "build": "rollup -c",
     "prepare": "simple-git-hooks",
     "dev": "rollup -c -w",
-    "prepublish": "eslint . && rollup -c",
-    "publish": "clean-publish --fields scripts"
-  },
-  "eslintConfig": {
-    "extends": ["@foxkit/internal/eslint", "@foxkit/internal/eslint-ts"]
-  },
-  "prettier": "@foxkit/internal/prettier",
-  "browserslist": ["maintained node versions"],
-  "simple-git-hooks": {
-    "pre-commit": "yarn lint-staged"
-  },
-  "lint-staged": {
-    "**/*.{j,t}s": ["eslint", "prettier -w"],
-    "**/*.{json,md}": ["prettier -w"]
-  },
-  "directories": {
-    "dist": "dist"
-  }
-}
-```
-
-- Add `tsconfig.json`
-
-```json
-{
-  "extends": "@foxkit/internal/tsconfig"
-}
-```
-
-- Add `.prettierignore`
-
-```
-node_modules/**
-dist/**
-```
-
-- Add `rollup.config.js`
-
-```js
-import { makeRollupConfig } from "@foxkit/interal";
-export default makeRollupConfig();
-```
-
-This builds a config based on the `exports` field in the project's `package.json`.
-
-- Testing with mocha (optional, recommended)
-
-Install `yarn add -D mocha` and replace `"test"` with `"mocha"`, as well as adding `& mocha` to `"prepublish"`
-
-## Install without TypeScript
-
-<details>
-<summary>Click to expand</summary>
-
-- Install dependencies:
-
-```shell
-yarn add -D @foxkit/internal rollup eslint prettier  clean-publish lint-staged simple-git-hooks
-```
-
-- Add to `package.json`:
-
-```json
-{
-  "scripts": {
-    "lint": "eslint .",
-    "format": "prettier -w .",
-    "test": "eslint .",
-    "prepare": "simple-git-hooks",
-    "dev": "rollup -c -w",
-    "prepublish": "eslint . && rollup -c",
-    "publish": "clean-publish --fields scripts"
-  },
-  "eslintConfig": {
-    "extends": "@foxkit/internal/eslint"
+    "publish": "yarn build && clean-publish --fields scripts"
   },
   "prettier": "@foxkit/internal/prettier",
   "browserslist": ["maintained node versions"],
@@ -104,13 +37,18 @@ yarn add -D @foxkit/internal rollup eslint prettier  clean-publish lint-staged s
   },
   "lint-staged": {
     "**/*.js": ["eslint", "prettier -w"],
-    "**/*.{json,md}": "prettier -w"
+    "**/*.{json,md}": ["prettier -w"]
   },
   "directories": {
-    "dist": "dist"
+    "dist": "dist",
+    "src": "src"
   }
 }
 ```
+
+- Add `.eslintrc.json`
+
+_(TODO: will get moved to own package)_
 
 - Add `.prettierignore`
 
@@ -119,19 +57,36 @@ node_modules/**
 dist/**
 ```
 
+- Add `.gitignore`
+
+```
+node_modules/**
+*.log
+```
+
 - Add `rollup.config.js`
 
-**_WARN_**: currently not supported. If needed temporarily fork the script and include it as `tools/makeRollupConfig.mjs`;
-
 ```js
-import { makeRollupConfig } from "@foxkit/interal";
-export default makeRollupConfig({ disableTs: true });
+import { readFileSync } from "fs";
+import { join } from "path";
+import { makeRollupConfig } from "@foxkit/internal";
+
+const pkg = JSON.parse(
+  readFileSync(join(process.cwd(), "package.json"), "utf8")
+);
+const config = makeRollupConfig(pkg);
+
+export default config;
 ```
 
 This builds a config based on the `exports` field in the project's `package.json`.
 
-</details>
-
 ## Testing with mocha (optional, recommended)
 
-Install `yarn add -D mocha` and replace `"test"` with `"mocha"`, as well as adding `& mocha` to `"prepublish"`
+Install `yarn add -D mocha` and add the following script:
+
+```json
+{ "postbuild": "mocha" }
+```
+
+Tests should be `*.test.js` files and run tests on the finished builds in `./dist`. Remember to test both esm and cjs for dual-published packages.
