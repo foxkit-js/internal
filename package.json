@@ -8,7 +8,7 @@
   "type": "module",
   "exports": {
     ".": "./index.js",
-    "prettier": "./prettier.json"
+    "./prettier": "./prettier.json"
   },
   "prettier": "./prettier.json",
   "dependencies": {
