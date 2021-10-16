@@ -1,6 +1,8 @@
 import { extname } from "path";
 import { builtinModules } from "module";
 
+const isDev = process.env.ROLLUP_WATCH === true;
+
 function getExternal(pkg) {
   return [
     ...builtinModules,
@@ -23,7 +25,7 @@ function resolveOutput(target, type, moduleType) {
   const match = target.match(/^\.\/(dist\/.*)\.[cm]?js$/)[1];
   const file = `${match}${ext}`;
 
-  return { file, format: type === "import" ? "esm" : "cjs", sourcemap: true };
+  return { file, format: type === "import" ? "esm" : "cjs", sourcemap: isDev };
 }
 
 function parseExport(target, moduleType, plugins) {
