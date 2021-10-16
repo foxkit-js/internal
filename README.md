@@ -1,14 +1,16 @@
 # foxkit internal
 
-This repository holds project configurations for all foxkit-js packages
+This repository holds rollup configuration generator and prettierrc for all foxkit-js packages
 
 ## Setup
 
 - Install dependencies:
 
 ```shell
-yarn add -D @foxkit/internal rollup eslint prettier eslint-config-prettier clean-publish lint-staged simple-git-hooks
+yarn add -D @foxkit/internal @foxkit/eslint-config rollup eslint prettier mocha eslint-config-prettier clean-publish lint-staged simple-git-hooks
 ```
+
+## package.json
 
 - Add to `package.json`:
 
@@ -24,31 +26,26 @@ yarn add -D @foxkit/internal rollup eslint prettier eslint-config-prettier clean
   "scripts": {
     "lint": "eslint .",
     "format": "prettier -w .",
-    "prebuild": "eslint .",
+    "prebuild": "eslint src/**",
     "build": "rollup -c",
+    "postbuild": "mocha",
     "prepare": "simple-git-hooks",
     "dev": "rollup -c -w",
-    "publish": "yarn build && clean-publish --fields scripts"
+    "publish": "yarn build && clean-publish --fields scripts --files src"
   },
+  "eslintConfig": { "extends": "@foxkit" },
   "prettier": "@foxkit/internal/prettier",
   "browserslist": ["maintained node versions"],
-  "simple-git-hooks": {
-    "pre-commit": "yarn lint-staged"
-  },
+  "simple-git-hooks": { "pre-commit": "yarn lint-staged" },
   "lint-staged": {
     "**/*.js": ["eslint", "prettier -w"],
     "**/*.{json,md}": ["prettier -w"]
   },
-  "directories": {
-    "dist": "dist",
-    "src": "src"
-  }
+  "directories": { "dist": "dist" }
 }
 ```
 
-- Add `.eslintrc.json`
-
-_(TODO: will get moved to own package)_
+## Ignore-files
 
 - Add `.prettierignore`
 
@@ -60,16 +57,29 @@ dist/**
 - Add `.gitignore`
 
 ```
-node_modules/**
+node_modules
+dist
 *.log
 ```
+
+- Add `.npmignore`
+
+```
+node_modules
+rollup.config.mjs
+```
+
+## Rollup config
 
 - Add `rollup.config.js`
 
 ```js
-import { readFileSync } from "fs";
+import { readFileSync, rmdirSync } from "fs";
 import { join } from "path";
 import { makeRollupConfig } from "@foxkit/internal";
+
+// clean dist dir
+rmdirSync(join(process.cwd(), "dist"), { recursive: true });
 
 const pkg = JSON.parse(
   readFileSync(join(process.cwd(), "package.json"), "utf8")
@@ -81,12 +91,6 @@ export default config;
 
 This builds a config based on the `exports` field in the project's `package.json`.
 
-## Testing with mocha (optional, recommended)
+## Testing with mocha
 
-Install `yarn add -D mocha` and add the following script:
-
-```json
-{ "postbuild": "mocha" }
-```
-
-Tests should be `*.test.js` files and run tests on the finished builds in `./dist`. Remember to test both esm and cjs for dual-published packages.
+Tests go in `./test` and run tests on the finished builds in `./dist` or helper functions in `./src`. Remember to test both esm and cjs for dual-published packages. Test-files should be called like `subjectFunction-{esm,cjs}.{js,cjs}`.
