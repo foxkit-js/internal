@@ -1,6 +1,6 @@
 {
   "name": "@foxkit/internal",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Shareable configs used in all foxkit-js repositories",
   "repository": "git@github.com:foxkit-js/internal.git",
   "author": "Mitsunee <michelle@mitsunee.com>",
