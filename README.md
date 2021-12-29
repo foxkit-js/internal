@@ -17,6 +17,7 @@ yarn add -D @foxkit/internal @foxkit/eslint-config rollup eslint prettier mocha 
 ```json
 {
   "type": "module",
+  "packageManager": "yarn",
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -39,9 +40,16 @@ yarn add -D @foxkit/internal @foxkit/eslint-config rollup eslint prettier mocha 
   "simple-git-hooks": { "pre-commit": "yarn lint-staged" },
   "lint-staged": {
     "**/*.js": ["eslint", "prettier -w"],
-    "**/*.{json,md}": ["prettier -w"]
+    "**/*.{json,md,d.ts}": ["prettier -w"]
   },
-  "directories": { "dist": "dist" }
+  "directories": { "dist": "dist" },
+  "clean-publish": {
+    "packageManager": "yarn",
+    "fields": ["scripts", "packageManager"]
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }
 ```
 
