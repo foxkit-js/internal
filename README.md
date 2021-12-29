@@ -39,7 +39,7 @@ yarn add -D @foxkit/internal @foxkit/eslint-config rollup eslint prettier mocha 
   "browserslist": ["maintained node versions"],
   "simple-git-hooks": { "pre-commit": "yarn lint-staged" },
   "lint-staged": {
-    "**/*.js": ["eslint", "prettier -w"],
+    "**/*.{js.cjs}": ["eslint", "prettier -w"],
     "**/*.{json,md,d.ts}": ["prettier -w"]
   },
   "directories": { "dist": "dist" },
