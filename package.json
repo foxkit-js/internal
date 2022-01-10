@@ -1,6 +1,6 @@
 {
   "name": "@foxkit/internal",
-  "version": "2.1.2",
+  "version": "3.0.0",
   "description": "Shareable configs used in all foxkit-js repositories",
   "repository": "git@github.com:foxkit-js/internal.git",
   "author": "Mitsunee <michelle@mitsunee.com>",
@@ -22,8 +22,8 @@
     "node": ">=12"
   },
   "peerDependencies": {
-    "rollup": "^2.58.0",
-    "prettier": "^2.4.1"
+    "prettier": "^2.4.1",
+    "rollup": "^2.58.0"
   },
   "peerDependenciesMeta": {
     "rollup": {
