@@ -8,7 +8,8 @@
   "type": "module",
   "exports": {
     ".": "./index.js",
-    "./prettier": "./prettier.json"
+    "./prettier": "./prettier.json",
+    "./reset.css": "./css-reset.css"
   },
   "prettier": "./prettier.json",
   "devDependencies": {

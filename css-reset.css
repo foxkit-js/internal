@@ -1,0 +1,172 @@
+/*! @foxkit/internal/reset.css v1.0.0 | MIT License | https://github.com/foxkit-js/internal */
+
+/*
+Credits
+=======
+- Based on: modern-normalize v1.1.0 | MIT License | https://github.com/sindresorhus/modern-normalize
+- With improvements from: CSS Tricks | https://css-tricks.com/
+
+Custom Properties
+=================
+--font-primary: primary font-family used on the page. See Global Overrides section for defaults
+--font-ui: font-family for form elements. --font-primary will be used instead if not set
+--font-monospace: font used for monospace elements like <code>
+--weight-bold: default weight for <b> and <strong>
+
+Notes
+=====
+Some more opinionated styles use a :where() selector to lower specificity.
+*/
+
+/*
+Global Overrides
+================
+*/
+
+/* Force min-height and max-width on common root elements */
+html,
+body,
+#root,
+#__next {
+  min-height: 100vh;
+  max-width: 100%;
+}
+#root,
+#__next {
+  width: 100%;
+}
+html {
+  box-sizing: border-box;
+  tab-size: 4;
+}
+:where(html, body) {
+  line-height: calc(1em + 0.5rem);
+}
+
+/* force vertical scroll only on body and add font-families */
+body {
+  overflow-x: hidden;
+  overflow-y: auto;
+  font-family: var(--font-primary), system-ui, -apple-system, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+/* inherit box-sizing to make overrides easier */
+*,
+::before,
+::after {
+  box-sizing: inherit;
+}
+
+/*
+Element-specific overrides
+==========================
+*/
+:where(img, picture, video, canvas, svg) {
+  display: block;
+  max-width: 100%;
+}
+:where(p, h1, h2, h3, h4, h5, h6) {
+  overflow-wrap: break-word;
+}
+table {
+  border-collapse: collapse;
+}
+
+/*
+Bug fixes from modern-normalize
+===============================
+*/
+hr {
+  height: 0;
+  color: inherit;
+}
+table {
+  text-indent: 0px;
+  border-color: inherit;
+}
+
+/* Text-level semantics */
+abbr[title] {
+  text-decoration: underline dotted;
+}
+b,
+strong {
+  font-weight: var(--weight-bold, bolder);
+}
+:where(code, kbd, samp, pre) {
+  font-family: var(--font-monospace, monospace);
+  font-size: 1em;
+}
+small {
+  font-size: 80%;
+}
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0px;
+  position: relative;
+  vertical-align: baseline;
+}
+sub {
+  bottom: -0.25em;
+}
+sup {
+  top: -0.5em;
+}
+
+/* Forms */
+:where(button, input, optgroup, select, textarea) {
+  font-family: var(--font-ui), var(--font-primary), inherit;
+  font-size: 1em;
+  line-height: inherit;
+  margin: 0px;
+}
+button,
+select {
+  text-transform: none;
+}
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+}
+[type="search"] {
+  -webkit-appearance: textfield;
+  outline-offset: -2px;
+}
+legend {
+  padding: 0px;
+}
+progress {
+  vertical-align: baseline;
+}
+summary {
+  display: list-item;
+}
+
+/* Firefox */
+::-moz-focus-inner {
+  border-style: none;
+  padding: 0px;
+}
+:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+:-moz-ui-invalid {
+  box-shadow: none;
+}
+
+/* Webkit */
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  height: auto;
+}
+::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  font: inherit;
+}
