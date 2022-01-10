@@ -11,9 +11,6 @@
     "./prettier": "./prettier.json"
   },
   "prettier": "./prettier.json",
-  "dependencies": {
-    "rollup": "^2.58.0"
-  },
   "devDependencies": {
     "clean-publish": "^3.0.3",
     "eslint": "^7.32.0",
@@ -24,9 +21,16 @@
     "node": ">=12"
   },
   "peerDependencies": {
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
+    "rollup": "^2.58.0",
     "prettier": "^2.4.1"
+  },
+  "peerDependenciesMeta": {
+    "rollup": {
+      "optional": true
+    },
+    "prettier": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"
