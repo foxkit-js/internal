@@ -1,3 +1,13 @@
+# MOVED
+
+⚠️ This package has been moved and is now part of the [foxkit monorepo](https://github.com/Mitsunee/foxkit) ⚠️
+
+## npm package deprecation
+
+- The npm package will get deprecated soon in favour of a dedicated package for rollup config generation.
+- The (unfinished) css-reset will be republished in a new package at a later date
+- Prettier config sharing will get removed as it is not supported by all editors and was thus not really used in many of my projects. The monorepo now uses symlinks to share the config across all foxkit packages
+
 # foxkit internal
 
 This repository holds rollup configuration generator and prettierrc for all foxkit-js packages
